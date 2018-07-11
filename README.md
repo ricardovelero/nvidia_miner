@@ -1,2 +1,1 @@
-# nvidia_miner
-Scripts to use Ubuntu as a miner
+Scripts to have Ubuntu mine Ethereum with nVidia video cards
