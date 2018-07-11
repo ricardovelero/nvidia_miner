@@ -3,7 +3,7 @@
 # Watchdog for Cyclenerd/ethereum_nvidia_miner based on nvOC v0019-2.0 - Community Release by papampi, Stubo and leenoox
 # https://github.com/papampi/nvOC_by_fullzero_Community_Release/blob/19.2/5watchdog
 
-echo "Watchdog"
+echo "Watchdog ver 1.0"
 
 # Set higher process and disk I/O priorities because we are essential service
 #sudo renice -n -15 -p $$ && sudo ionice -c2 -n0 -p$$ >/dev/null 2>&1
