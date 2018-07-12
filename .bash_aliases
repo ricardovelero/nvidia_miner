@@ -1,0 +1,13 @@
+alias setup='bash ~/setup.sh'
+alias nvidia-overclock='bash ~/nvidia-overclock.sh'
+alias reboot='sudo reboot'
+alias shutdown='sudo shutdown -h now'
+alias exportd='export DISPLAY=:0'
+alias gpuinfo='~/gpuinfo.sh'
+# mining control
+alias temp='screen -r temp'
+alias wdog='screen -r wdog'
+alias miner='screen -r miner'
+alias stop='pkill -e screen'
+alias start='bash ~/miner.sh'
+alias restart='pkill -e screen ; bash ~/miner.sh'
