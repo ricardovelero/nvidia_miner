@@ -22,14 +22,14 @@ do
 		echo "Host : $myHost is down (ping failed) at $(date)" | mail -s "$SUBJECT" $EMAILID
 	fi
 	if [[ $COUNT =~ $re ]] ; then
-		RECOUNT=$(($RECOUNT + $count))
+		RECOUNT=$(($RECOUNT+$count))
 	else
 		echo "Host : could not resolve $myHost (ping failed) at $(date)" | mail -s "$SUBJECT" $EMAILID
 		sudo systemctl restart networking.service >/dev/null 2>&1
 	fi
 done
 
-if [ $RECCOUNT -lt 8 ]; then
+if [[ $RECCOUNT -lt 8 ]]; then
 	# 70% failed, restart network service
 	sudo systemctl restart networking.service >/dev/null 2>&1
 fi
