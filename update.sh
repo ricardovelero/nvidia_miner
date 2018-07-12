@@ -72,7 +72,7 @@ if [[ ! $(/home/prospector/ethminer/latest/ethminer --version | grep 0.14) ]]
 then
   echo "Downloading and making changes for Ethminer 0.14"
   mkdir -p /home/prospector/ethminer/latest
-  curl -f "https://github.com/ricardovelero/nvidia_miner/blob/master/ethminer/latest/ethminer" -o /home/prospector/ethminer/latest/ethminer
+  curl -f "https://github.com/ricardovelero/nvidia_miner/blob/master/ethminer/latest/ethminer?raw=true" -o /home/prospector/ethminer/latest/ethminer
   chmod 755 /home/prospector/ethminer/latest/ethminer
 else
   echo "Latest ethminer already downloaded"
