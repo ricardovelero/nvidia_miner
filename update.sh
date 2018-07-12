@@ -49,9 +49,9 @@ echo; echo "Update 'net_wdog.sh'"
 curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/net_wdog.sh" -o net_wdog.sh
 chmod 755 net_wdog.sh
 
-echo; echo "Backing up Settings to settings.conf.bak and Update 'settings.conf'"
-cp settings.conf settings.conf.bak
-curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/settings.conf" -o settings.conf
+#echo; echo "Backing up Settings to settings.conf.bak and Update 'settings.conf'"
+#cp settings.conf settings.conf.bak
+#curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/settings.conf" -o settings.conf
 
 echo; echo "Update 'update.sh'"
 curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/update.sh" -o update.sh
