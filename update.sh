@@ -8,9 +8,9 @@
 
 cd ~prospector || exit 9
 
-#echo; echo "Update '.bashrc' and '.bash_aliases'"
-#curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/.bashrc" -o .bashrc
-#curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/.bash_aliases" -o .bash_aliases
+echo; echo "Update '.bashrc' and '.bash_aliases'"
+curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/.bashrc" -o .bashrc
+curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/.bash_aliases" -o .bash_aliases
 
 echo; echo "Update '.screenrc'"
 curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/.screenrc" -o .screenrc
