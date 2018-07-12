@@ -57,7 +57,9 @@ echo; echo "Update 'update.sh'"
 curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/update.sh" -o update.sh
 chmod 755 update.sh
 
-echo "Checking Ethminer directory"
+sleep 2
+
+echo; echo "Checking Ethminer directory"
 if [[ ! -d /home/prospector/ethminer/latest/ ]]
 then
   echo "Making Ethminer directory"
@@ -66,17 +68,19 @@ else
   echo "Ethminer directory structure already fixed"
 fi
 
-echo "Checking for Ethminer 0.14"
+echo; echo "Checking for Ethminer 0.14"
 
 if [[ ! $(/home/prospector/ethminer/latest/ethminer --version | grep 0.14) ]]
 then
   echo "Downloading and making changes for Ethminer 0.14"
   mkdir -p /home/prospector/ethminer/latest
-  curl -f "https://github.com/ricardovelero/nvidia_miner/blob/master/ethminer/latest/ethminer?raw=true" -o /home/prospector/ethminer/latest/ethminer
+  wget https://github.com/ricardovelero/nvidia_miner/blob/master/ethminer/latest/ethminer?raw=true -O ~/ethminer/latest/ethminer
   chmod 755 /home/prospector/ethminer/latest/ethminer
 else
   echo "Latest ethminer already downloaded"
 fi
+
+sleep 2
 
 echo; echo "Crontab setup"
 echo "Resetting Crontab"
@@ -108,6 +112,8 @@ echo "Schedule network watchdog 'net_wdog.sh' to run every 15 minutes"
 
 echo "Telegram report every 6 hours"
 ( crontab -l | grep -v -F "$croncmd_repor" ; echo "$cronjob_atsixhour $croncmd_repor" ) | crontab -
+
+sleep 2
 
 echo; echo; echo "Updating and Upgrading system packages and installing needed packages"
 sudo -- sh -c 'apt update; apt upgrade -y; apt autoremove -y; apt autoclean -y; sudo apt install -y bc mc moreutils gawk'
