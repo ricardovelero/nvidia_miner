@@ -127,7 +127,28 @@ export GPU_SINGLE_ALLOC_PERCENT=100
 echo "LAUNCHING:  MINER"
 # ethminer
 # https://github.com/ethereum-mining/ethminer
-screen -dmS miner ~/ethminer/latest/ethminer --farm-recheck 10000 -SP 1 -RH -S "$ETH_POOL" -FS "$ETH_FS" -O "$MY_ADDRESS.$MY_RIG" -U
+#
+# Please choose version
+#
+# version 0.14 and bellow
+
+if [[ $USE_LEGACY_ETHMINER == "YES" ]]; then
+
+	screen -dmS miner ~/ethminer/legacy/ethminer --farm-recheck 10000 -SP 1 -RH -S "$ETH_POOL" -FS "$ETH_FS" -O "$MY_ADDRESS.$MY_RIG" -U
+
+fi
+
+# Version 0.15 and above
+
+if [[ $USE_POOL_SSL == "YES" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
+
+	screen -dmS miner ~/ethminer/latest/ethminer -P stratum1+ssl://$MY_ADDRESS.$MY_RIG@$ETH_POOL_SSL
+
+elif [[ $USE_POOL_SSL == "NO" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
+
+	screen -dmS miner ~/ethminer/latest/ethminer -P stratum1+ssl://$MY_ADDRESS.$MY_RIG@$ETH_POOL
+
+fi
 
 # Claymore's Dual Ethereum+Decred AMD+NVIDIA GPU Miner
 #screen -dmS miner ~/claymore-dual-miner/ethdcrminer64 -epool "eu1.ethermine.org:4444" -ewal "$MY_ADDRESS.$MY_RIG" -epsw x -mode 1 -ftime 10 -mport 0
