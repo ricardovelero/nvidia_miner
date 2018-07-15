@@ -142,11 +142,11 @@ fi
 
 if [[ $USE_POOL_SSL == "YES" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
 
-	screen -dmS miner ~/ethminer/latest/ethminer -U -P stratum1+ssl://$MY_ADDRESS.$MY_RIG@$ETH_POOL_SSL --api-bind -3333
+	screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$MY_ADDRESS.$MY_RIG@$ETH_POOL_SSL --api-bind -3333
 
 elif [[ $USE_POOL_SSL == "NO" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
 
-	screen -dmS miner ~/ethminer/latest/ethminer -U -P stratum1+ssl://$MY_ADDRESS.$MY_RIG@$ETH_POOL --api-bind -3333
+	screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$MY_ADDRESS.$MY_RIG@$ETH_POOL --api-bind -3333
 
 fi
 
