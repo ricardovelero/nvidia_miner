@@ -60,19 +60,24 @@ chmod 755 update.sh
 sleep 2
 
 echo; echo "Checking Ethminer directory"
-if [[ ! -d /home/prospector/ethminer/latest/ ]]
-then
+if [[ ! -d /home/prospector/ethminer/legacy/ ]]; then
+  echo "Making legacy Ethminer directory"
+  mkdir -p /home/prospector/ethminer/legacy
+fi
+if [[ ! -d /home/prospector/ethminer/latest/ ]]; then
   echo "Making Ethminer directory"
   mkdir -p /home/prospector/ethminer/latest
 else
   echo "Ethminer directory structure already fixed"
 fi
 
-echo; echo "Checking for Ethminer 0.14"
+echo; echo "Checking for Ethminer 0.16"
 
-if [[ ! $(/home/prospector/ethminer/latest/ethminer --version | grep 0.14) ]]
+if [[ ! $(/home/prospector/ethminer/latest/ethminer --version | grep 0.16) ]]
 then
-  echo "Downloading and making changes for Ethminer 0.14"
+  echo "Moving old Ethminer to legacy directory"
+  cp /home/prospector/ethminer/latest/ethminer /home/prospector/ethminer/legacy/ethminer
+  echo "Downloading and making changes for Ethminer 0.16"
   mkdir -p /home/prospector/ethminer/latest
   wget https://github.com/ricardovelero/nvidia_miner/blob/master/ethminer/latest/ethminer?raw=true -O ~/ethminer/latest/ethminer
   chmod 755 /home/prospector/ethminer/latest/ethminer
