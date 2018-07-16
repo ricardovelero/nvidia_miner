@@ -629,7 +629,7 @@ MY_MENU_TITLE="Setup"
 
 MY_MENU_TEXT="
 If you need help, please visit:
-    https://github.com/Cyclenerd/ethereum_nvidia_miner
+    https://solucionesio.es/
 
 Choose a task:
 "
@@ -641,13 +641,14 @@ while true; do
 					 3 "$MY_PASSWD_TITLE"
 	         4 "$MY_TIMEZONE_TITLE"
 					 5 "$MY_KEYBOARD_TITLE"
-	         6 "$MY_SENSORS_DETECT_TITLE"
-	         7 "$MY_NVIDIA_CONFIG_TITLE"
-	         8 "$MY_MINER_TITLE"
-	         9 "$MY_NVIDIA_OVERCLOCK_TITLE"
-	        10 "$MY_OTHER_TITLE"
-	        11 "$MY_REBOOT_TITLE"
-	        12 "$MY_SHUTDOWN_TITLE")
+					 6 "$MY_RIG_TITLE"
+	         7 "$MY_SENSORS_DETECT_TITLE"
+	         8 "$MY_NVIDIA_CONFIG_TITLE"
+	         9 "$MY_MINER_TITLE"
+	        10 "$MY_NVIDIA_OVERCLOCK_TITLE"
+	        11 "$MY_OTHER_TITLE"
+	        12 "$MY_REBOOT_TITLE"
+	        13 "$MY_SHUTDOWN_TITLE")
 	choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 	if [ "$choice" != "" ]; then
 		case $choice in
@@ -656,13 +657,14 @@ while true; do
 			3)  my_passwd ;;
 			4)  my_timezone ;;
 			5)  my_keyboard ;;
-			6)  my_sensors_detect ;;
-			7)  my_nvidia_config ;;
-			8)  my_miner ;;
-			9)  my_nvidia_overclock ;;
-			10) my_other ;;
-			11) my_reboot ;;
-			12) my_shutdown ;;
+			6)  my_rig ;;
+			7)  my_sensors_detect ;;
+			8)  my_nvidia_config ;;
+			9)  my_miner ;;
+			10)  my_nvidia_overclock ;;
+			11) my_other ;;
+			12) my_reboot ;;
+			13) my_shutdown ;;
 		esac
 	else
 		break
