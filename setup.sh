@@ -375,15 +375,19 @@ MY_RIG_MSG_TEXT="
 Name your rig. Allowed characters A-Z and 0-9.
 "
 function my_rig() {
-	# shellcheck source=settings.conf
-	source ~/settings.conf
+	#Assign existing hostname to $hostn
+	hostn=$(cat /etc/hostname)
 	cmd=(dialog --backtitle "$MY_RIG_TITLE" --inputbox "$MY_RIG_MSG_TEXT" 14 60 "$MY_RIG")
 	choices=$("${cmd[@]}" 2>&1 >/dev/tty)
 	if [ "$choices" != "" ]; then
-		MY_RIG=$choices
-		sed -i.bak '/MY_RIG/d' ~/settings.conf
-		echo >> ~/settings.conf
-		echo "MY_RIG='$MY_RIG'" >> ~/settings.conf
+		sudo sed -i "s/$hostn/$choices/g" /etc/hosts
+		sudo sed -i "s/$hostn/$choices/g" /etc/hostname
+		#display new hostname
+		echo; echo "Your new hostname is $choices"
+		#Press a key to reboot
+		echo
+		read -s -n 1 -p "Press any key to reboot"
+		sudo reboot
 	fi
 }
 
