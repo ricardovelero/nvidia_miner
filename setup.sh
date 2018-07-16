@@ -385,8 +385,11 @@ function my_rig() {
 	if [ "$choices" != "" ]; then
 		clear
 		echo_title "$MY_RIG_TITLE"
+		echo; echo "Changing hostname from $hostn to $choices"
 		sudo sed -i "s/$hostn/$choices/g" /etc/hosts
 		sudo sed -i "s/$hostn/$choices/g" /etc/hostname
+		sleep 1
+		echo "Done."
 		my_any_key
 		dialog --backtitle "$MY_RIG_TITLE" --msgbox "Your new hostname is $(cat /etc/hostname)" 14 60
 		my_reboot
