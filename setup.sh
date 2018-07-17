@@ -491,6 +491,18 @@ function my_console() {
 	clear
 }
 
+# my_sys_upgrade()
+
+MY_SYS_UPGRADE_TITLE="OS Update and Upgrade"
+
+function my_sys_upgrade() {
+	clear
+	echo_title "$MY_SYS_UPGRADE_TITLE"
+	sudo -- sh -c 'apt update; apt upgrade -y; apt autoremove -y; apt autoclean -y'
+	my_any_key
+	clear
+}
+
 # my_visudo()
 
 MY_VISUDO_TITLE="Add prospector as sudoer"
@@ -516,12 +528,14 @@ function my_other(){
 	while true; do
 		cmd=(dialog --backtitle "$MY_OTHER_TITLE" --menu "$MY_OTHER_MENU_TITLE" 22 76 16)
 		options=(1 "$MY_KEYBOARD_TITLE"
-		         2 "$MY_CONSOLE_TITLE")
+		         2 "$MY_CONSOLE_TITLE"
+						 3 "$MY_SYS_UPGRADE" )
 		choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 		if [ "$choice" != "" ]; then
 			case $choice in
 				1)  my_keyboard ;;
 				2)  my_console ;;
+				3)  my_sys_upgrade ;;
 			esac
 		else
 			break
