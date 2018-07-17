@@ -529,7 +529,7 @@ function my_other(){
 		cmd=(dialog --backtitle "$MY_OTHER_TITLE" --menu "$MY_OTHER_MENU_TITLE" 22 76 16)
 		options=(1 "$MY_KEYBOARD_TITLE"
 		         2 "$MY_CONSOLE_TITLE"
-						 3 "$MY_SYS_UPGRADE" )
+						 3 "$MY_SYS_UPGRADE_TITLE" )
 		choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 		if [ "$choice" != "" ]; then
 			case $choice in
