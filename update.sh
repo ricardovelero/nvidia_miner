@@ -120,8 +120,9 @@ echo "Telegram report every 6 hours"
 
 sleep 2
 
-echo; echo; echo "Updating and Upgrading system packages and installing needed packages"
-sudo -- sh -c 'apt update; apt upgrade -y; apt autoremove -y; apt autoclean -y; sudo apt install -y bc mc moreutils gawk'
+echo; echo; echo "Installing needed packages"
+#sudo -- sh -c 'apt update; apt upgrade -y; apt autoremove -y; apt autoclean -y; sudo apt install -y bc mc moreutils gawk'
+sudo -- sh -c 'sudo apt install -y bc mc moreutils gawk'
 
 echo
 echo "Done"
