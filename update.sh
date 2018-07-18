@@ -99,6 +99,7 @@ croncmd_repor="bash ~/telegram.sh >/dev/null 2>&1"
 
 cronjob_at_reboot="@reboot"
 cronjob_atfifteen="15 * * * *"
+cronjob_atonehour="0 */1 * * *"
 cronjob_atsixhour="#0 */6 * * *"
 
 echo "Adding new scheduled commands:"
@@ -112,8 +113,8 @@ echo "Send a telegram message after 80 seconds reboot"
 echo "After 2.5 minutes uptime, 'nvidia-overclock.sh' starts"
 ( crontab -l | grep -v -F "$croncmd_nvioc" ; echo "$cronjob_at_reboot $croncmd_nvioc" ) | crontab -
 
-echo "Schedule network watchdog 'net_wdog.sh' to run every 15 minutes"
-( crontab -l | grep -v -F "$croncmd_netwd" ; echo "$cronjob_atfifteen $croncmd_netwd" ) | crontab -
+echo "Schedule network watchdog 'net_wdog.sh' to run every hour"
+( crontab -l | grep -v -F "$croncmd_netwd" ; echo "$cronjob_atonehour $croncmd_netwd" ) | crontab -
 
 echo "Telegram report every 6 hours"
 ( crontab -l | grep -v -F "$croncmd_repor" ; echo "$cronjob_atsixhour $croncmd_repor" ) | crontab -
