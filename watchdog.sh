@@ -3,7 +3,7 @@
 # Watchdog for Cyclenerd/ethereum_nvidia_miner based on nvOC v0019-2.0 - Community Release by papampi, Stubo and leenoox
 # https://github.com/papampi/nvOC_by_fullzero_Community_Release/blob/19.2/5watchdog
 
-echo "Watchdog ver 1.0"
+echo "Watchdog ver 1.1"
 
 # Set higher process and disk I/O priorities because we are essential service
 #sudo renice -n -15 -p $$ && sudo ionice -c2 -n0 -p$$ >/dev/null 2>&1
@@ -91,7 +91,7 @@ while true; do
       if ! [[ ( $UTIL =~ $numtest ) && ( $CURRENT_TEMP =~ $numtest ) && ( $CURRENT_FAN =~ $numtest ) && ( $POWERDRAW =~ $numtest ) && ( $PWRLIMIT =~ $numtest ) ]]; then
         # Not numeric so: Help we've lost a GPU, so reboot
 				LOST_GPU_INFO="Gpu: $GPU, Util: $UTIL, Temp: $CURRENT_TEMP, Fan: $CURRENT_FAN, Power: $POWERDRAW, Power limit: $PWRLIMIT."
-				echo "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
+				logger -s "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
         if [[ $TELEGRAM_ALERTS == "YES" ]]; then
           bash ~/telegram.sh "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
         fi
@@ -99,7 +99,7 @@ while true; do
         sudo reboot
       elif [ $UTIL -lt $THRESHOLD ] # If utilization is lower than threshold, decrement counter
       then
-				echo "$(date) - GPU $GPU under threshold found - GPU UTILIZATION:  {$UTIL}"
+				logger -s "$(date) - GPU $GPU under threshold found - GPU UTILIZATION:  {$UTIL}"
         COUNT=$(($COUNT - 1))
         NUM_GPU_BLW_THRSHLD=$(($NUM_GPU_BLW_THRSHLD + 1))
       fi
@@ -111,21 +111,21 @@ while true; do
   # If we found at least one GPU below the utilization threshold
   if [ $NUM_GPU_BLW_THRSHLD -gt 0 ]
   then
-    #echo "$(date) - Debug: NUM_GPU_BLW_THRSHLD=$NUM_GPU_BLW_THRSHLD, COUNT=$COUNT, RESTART=$RESTART, REBOOTRESET=$REBOOTRESET" | tee -a ${LOG_FILE}
+    logger "$(date) - Debug: NUM_GPU_BLW_THRSHLD=$NUM_GPU_BLW_THRSHLD, COUNT=$COUNT, RESTART=$RESTART, REBOOTRESET=$REBOOTRESET" | tee -a ${LOG_FILE}
 
     # Check for Internet and wait if down
     if ! nc -vzw1 google.com 443;
     then
-      echo "WARNING: $(date) - Internet is down, checking..." | tee -a ${LOG_FILE}
+      logger -s "WARNING: $(date) - Internet is down, checking..." | tee -a ${LOG_FILE}
     fi
     while ! nc -vzw1 google.com 443;
     do
-      echo "WARNING: $(date) - Internet is down, checking again in 30 seconds..." | tee -a ${LOG_FILE}
+      logger -s "WARNING: $(date) - Internet is down, checking again in 30 seconds..." | tee -a ${LOG_FILE}
       sleep 30
       # When we come out of the loop, reset to skip additional checks until the next time through the loop
       if nc -vzw1 google.com 443;
       then
-				echo "$(date) - Internet was down, Now it's ok"
+				logger -s "$(date) - Internet was down, Now it's ok"
 				if [[ $TELEGRAM_ALERTS == "YES" ]]; then
         	bash ~/telegram.sh "$(date) - Internet was down, Now it's ok"
 				fi
@@ -133,7 +133,7 @@ while true; do
         #### Now that internet comes up check and restart miner if needed, no need to restart Miner, problem was the internet.
     		if [[ -z $(ps ax | grep -i screen | grep miner) ]]
         then
-	        echo "$(date) - miner is not running, start miner"
+	        logger -s "$(date) - miner is not running, start miner"
 				  # Kill autotempfan just in case
 				  target_temp=$(ps ax | grep -i screen | grep autotempfan | awk '{print $1}')
 				  kill $target_temp
@@ -152,7 +152,7 @@ while true; do
     if [[ $(ps ax | grep -i screen | grep miner | wc -l) -eq 0 ]]
     then
       COUNT=0
-      echo "WARNING: $(date) - Found no miner, jumping to Miner restart"
+      logger -s "WARNING: $(date) - Found no miner, jumping to Miner restart"
     fi
 
     # Percent of GPUs below threshold
@@ -165,17 +165,15 @@ while true; do
     if [[ $COUNT -le 0 || ($PCT_GPU_BAD -eq 100 && $COUNT -lt $((5 * $GPU_COUNT))) ]]
     then
       # Get some some diagnostics to the logs before restarting or rebooting
-      echo "" | tee -a ${LOG_FILE}; echo "" | tee -a ${LOG_FILE}
-      echo "WARNING: $(date) - Problem found: See diagnostics below: " | tee -a ${LOG_FILE}
-      echo "Percent of GPUs bellow threshold: $PCT_GPU_BAD %"  | tee -a ${LOG_FILE}
-      echo "$(nvidia-smi --query-gpu=name,pstate,temperature.gpu,fan.speed,utilization.gpu,power.draw,power.limit --format=csv)" | tee -a ${LOG_FILE}
-      echo ""
-
+      logger -s "WARNING: $(date) - Problem found: See diagnostics below: "
+      logger -s "Percent of GPUs bellow threshold: $PCT_GPU_BAD %"
+      logger -s "$(nvidia-smi --query-gpu=name,pstate,temperature.gpu,fan.speed,utilization.gpu,power.draw,power.limit --format=csv)"
+			echo ""
       # If we have had 4 miner restarts and still have low utilization
       if [[ $RESTART -gt 4 ]]
       then
         ALERT="CRITICAL: $(date) - Utilization is too low: reviving did not work so restarting system in 10 seconds"
-				echo "${ALERT}"
+				logger -s "${ALERT}"
 				echo ""
         if [[ $TELEGRAM_ALERTS == "YES" ]]; then
           bash ~/telegram.sh "${ALERT}"
@@ -193,7 +191,7 @@ while true; do
 
       echo ""
       ALERT="CRITICAL: $(date) - GPU Utilization is too low: restarting Miner..."
-      echo "${ALERT}"
+      logger -s "${ALERT}"
 
       if [[ $TELEGRAM_ALERTS == "YES" ]]; then
         bash ~/telegram.sh "${ALERT}"
@@ -215,12 +213,12 @@ while true; do
       # Give Miner time to restart to prevent reboot
       sleep $SLEEP_TIME
       ALERT="$(date) - Back 'on watch' after miner restart"
-			echo "${ALERT}"
+			logger -s "${ALERT}"
 			if [[ $TELEGRAM_ALERTS == "YES" ]]; then
         bash ~/telegram.sh "${ALERT}"
       fi
     	else
-      	echo "$(date) - Low Utilization Detected: Miner will reinit if there are $COUNT consecutive failures"
+      	logger -s "$(date) - Low Utilization Detected: Miner will reinit if there are $COUNT consecutive failures"
       	echo ""
     	fi
     	# No below threshold GPUs detected for this pass
