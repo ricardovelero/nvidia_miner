@@ -3,7 +3,7 @@
 # Watchdog for Cyclenerd/ethereum_nvidia_miner based on nvOC v0019-2.0 - Community Release by papampi, Stubo and leenoox
 # https://github.com/papampi/nvOC_by_fullzero_Community_Release/blob/19.2/5watchdog
 
-echo "Watchdog ver 1.1"
+echo "Watchdog ver 1.2"
 
 # Set higher process and disk I/O priorities because we are essential service
 #sudo renice -n -15 -p $$ && sudo ionice -c2 -n0 -p$$ >/dev/null 2>&1
@@ -83,7 +83,7 @@ while true; do
         sudo reboot
       elif [ $UTIL -lt $THRESHOLD ] # If utilization is lower than threshold, decrement counter
       then
-        echo "$(date) - GPU $GPU under threshold found - GPU UTILIZATION:  " $UTIL  | tee -a ${LOG_FILE}
+        logger -s echo "$(date) - GPU $GPU under threshold found - GPU UTILIZATION:  " $UTIL
         COUNT=$(($COUNT - 1))
         NUM_GPU_BLW_THRSHLD=$(($NUM_GPU_BLW_THRSHLD + 1))
       fi
@@ -111,17 +111,18 @@ while true; do
   # If we found at least one GPU below the utilization threshold
   if [ $NUM_GPU_BLW_THRSHLD -gt 0 ]
   then
-    logger "$(date) - Debug: NUM_GPU_BLW_THRSHLD=$NUM_GPU_BLW_THRSHLD, COUNT=$COUNT, RESTART=$RESTART, REBOOTRESET=$REBOOTRESET" | tee -a ${LOG_FILE}
+    logger "$(date) - Debug: NUM_GPU_BLW_THRSHLD=$NUM_GPU_BLW_THRSHLD, COUNT=$COUNT, RESTART=$RESTART, REBOOTRESET=$REBOOTRESET"
 
     # Check for Internet and wait if down
     if ! nc -vzw1 google.com 443;
     then
-      logger -s "WARNING: $(date) - Internet is down, checking..." | tee -a ${LOG_FILE}
+      logger -s "WARNING: $(date) - Internet is down, checking..."
     fi
     while ! nc -vzw1 google.com 443;
     do
-      logger -s "WARNING: $(date) - Internet is down, checking again in 30 seconds..." | tee -a ${LOG_FILE}
+      logger -s "WARNING: $(date) - Internet is down, checking again in 30 seconds..."
       sleep 30
+			NET_CHECK_COUNT=$(($NET_CHECK_COUNT + 1)) # count loop times
       # When we come out of the loop, reset to skip additional checks until the next time through the loop
       if nc -vzw1 google.com 443;
       then
@@ -146,6 +147,11 @@ while true; do
 			    sleep $SLEEP_TIME
 			   fi
 			  fi
+				if [[ $NET_CHECK_COUNT -gt 6 ]]; then
+					# Let's try to restart network!
+					logger -s "ALERT: $(date) - Internet is down and will try to recover restarting network services..."
+					sudo systemctl restart networking.service
+				fi
 			done
 
     # Look for no miner screen and get right to miner restart
