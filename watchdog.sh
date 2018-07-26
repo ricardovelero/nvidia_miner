@@ -147,7 +147,7 @@ while true; do
 			    sleep $SLEEP_TIME
 			   fi
 			  fi
-				if [[ $NET_CHECK_COUNT -gt 6 ]]; then
+				if [[ $NET_CHECK_COUNT -gt 3 ]]; then
 					# Let's try to restart network!
 					logger -s "ALERT: $(date) - Internet is down and will try to recover restarting network services..."
 					sudo systemctl restart networking.service
