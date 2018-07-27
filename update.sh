@@ -114,7 +114,7 @@ echo "Send a telegram message after 80 seconds reboot"
 echo "After 2.5 minutes uptime, 'nvidia-overclock.sh' starts"
 ( crontab -l | grep -v -F "$croncmd_nvioc" ; echo "$cronjob_at_reboot $croncmd_nvioc" ) | crontab -
 
-echo "Schedule network watchdog 'net_wdog.sh' to run every hour"
+echo "Schedule 'dhclient' to run every 12 hours"
 ( crontab -l | grep -v -F "$croncmd_netwd" ; echo "$cronjob_attwelveh $croncmd_netwd" ) | crontab -
 
 echo "Telegram report every 6 hours"
