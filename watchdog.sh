@@ -74,8 +74,8 @@ while true; do
     if [[ $(nvidia-smi -i $GPU --query-gpu=name --format=csv,noheader,nounits | grep "1050") ]]; then
       if ! [[ ( $UTIL =~ $numtest ) && ( $CURRENT_TEMP =~ $numtest ) && ( $CURRENT_FAN =~ $numtest ) && ( $PWRLIMIT =~ $numtest ) ]]; then
         # Not numeric so: Help we've lost a GPU, so reboot
-				LOST_GPU_INFO="Gpu: $GPU, Util: $UTIL, Temp: $CURRENT_TEMP, Fan: $CURRENT_FAN, Power: $POWERDRAW, Power limit: $PWRLIMIT."
-				echo "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
+	LOST_GPU_INFO="Gpu: $GPU, Util: $UTIL, Temp: $CURRENT_TEMP, Fan: $CURRENT_FAN, Power: $POWERDRAW, Power limit: $PWRLIMIT."
+	echo "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
         if [[ $TELEGRAM_ALERTS == "YES" ]]; then
           bash ~/telegram.sh "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
         fi
@@ -90,8 +90,8 @@ while true; do
     else
       if ! [[ ( $UTIL =~ $numtest ) && ( $CURRENT_TEMP =~ $numtest ) && ( $CURRENT_FAN =~ $numtest ) && ( $POWERDRAW =~ $numtest ) && ( $PWRLIMIT =~ $numtest ) ]]; then
         # Not numeric so: Help we've lost a GPU, so reboot
-				LOST_GPU_INFO="Gpu: $GPU, Util: $UTIL, Temp: $CURRENT_TEMP, Fan: $CURRENT_FAN, Power: $POWERDRAW, Power limit: $PWRLIMIT."
-				logger -s "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
+	LOST_GPU_INFO="Gpu: $GPU, Util: $UTIL, Temp: $CURRENT_TEMP, Fan: $CURRENT_FAN, Power: $POWERDRAW, Power limit: $PWRLIMIT."
+	logger -s "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
         if [[ $TELEGRAM_ALERTS == "YES" ]]; then
           bash ~/telegram.sh "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
         fi
@@ -99,12 +99,11 @@ while true; do
         sudo reboot
       elif [ $UTIL -lt $THRESHOLD ] # If utilization is lower than threshold, decrement counter
       then
-				logger -s "$(date) - GPU $GPU under threshold found - GPU UTILIZATION:  {$UTIL}"
+	logger -s "$(date) - GPU $GPU under threshold found - GPU UTILIZATION:  {$UTIL}"
         COUNT=$(($COUNT - 1))
         NUM_GPU_BLW_THRSHLD=$(($NUM_GPU_BLW_THRSHLD + 1))
       fi
     fi
-
     sleep 0.2    # 0.2 seconds delay until querying the next GPU
   done
 
@@ -122,44 +121,44 @@ while true; do
     do
       logger -s "WARNING: $(date) - Internet is down, checking again in 30 seconds..."
       sleep 30
-			NET_CHECK_COUNT=$(($NET_CHECK_COUNT + 1)) # count loop times
+      NET_CHECK_COUNT=$(($NET_CHECK_COUNT + 1)) # count loop times
       # When we come out of the loop, reset to skip additional checks until the next time through the loop
       if nc -vzw1 google.com 443;
       then
-				logger -s "$(date) - Internet was down, Now it's ok"
-				if [[ $TELEGRAM_ALERTS == "YES" ]]; then
-        	bash ~/telegram.sh "$(date) - Internet was down, Now it's ok"
-				fi
+	logger -s "$(date) - Internet was down, Now it's ok"
+	if [[ $TELEGRAM_ALERTS == "YES" ]]; then
+	    bash ~/telegram.sh "$(date) - Internet was down, Now it's ok"
+	fi
         REBOOTRESET=0; RESTART=0; COUNT=$((6 * $GPU_COUNT))
         #### Now that internet comes up check and restart miner if needed, no need to restart Miner, problem was the internet.
-    		if [[ -z $(ps ax | grep -i screen | grep miner) ]]
+    	if [[ -z $(ps ax | grep -i screen | grep miner) ]]
         then
-	        logger -s "$(date) - miner is not running, start miner"
-				  # Kill autotempfan just in case
-				  target_temp=$(ps ax | grep -i screen | grep autotempfan | awk '{print $1}')
-				  kill $target_temp
-			    # Start Miner
-				  bash ~/miner.sh
-				  #wait for miner to start hashing
-			    sleep $SLEEP_TIME
-			   else
-			   	echo "$(date) - miner is running, waiting $SLEEP_TIME seconds before going 'on watch'"
-			    sleep $SLEEP_TIME
-			   fi
-			  fi
-				if [[ $NET_CHECK_COUNT -gt 3 ]]; then
-					# Let's try to restart network!
-					logger -s "ALERT: $(date) - Internet is down and will try to recover restarting network services..."
-					sudo systemctl restart networking.service
-				fi
-			done
-
-    # Look for no miner screen and get right to miner restart
-    if [[ $(ps ax | grep -i screen | grep miner | wc -l) -eq 0 ]]
-    then
-      COUNT=0
-      logger -s "WARNING: $(date) - Found no miner, jumping to Miner restart"
+	  logger -s "$(date) - miner is not running, start miner"
+	  # Kill autotempfan just in case
+	  target_temp=$(ps ax | grep -i screen | grep autotempfan | awk '{print $1}')
+	  kill $target_temp
+	  # Start Miner
+	  bash ~/miner.sh
+	  #wait for miner to start hashing
+	  sleep $SLEEP_TIME
+	else
+	  echo "$(date) - miner is running, waiting $SLEEP_TIME seconds before going 'on watch'"
+	  sleep $SLEEP_TIME
+	fi
     fi
+    if [[ $NET_CHECK_COUNT -gt 3 ]]; then
+	# Let's try to restart network!
+	logger -s "ALERT: $(date) - Internet is down and will try to recover restarting network services..."
+	sudo systemctl restart networking.service
+    fi
+ done
+ 
+# Look for no miner screen and get right to miner restart
+if [[ $(ps ax | grep -i screen | grep miner | wc -l) -eq 0 ]]
+   then
+   COUNT=0
+   logger -s "WARNING: $(date) - Found no miner, jumping to Miner restart"
+fi
 
     # Percent of GPUs below threshold
     PCT_GPU_BAD=$((100 * NUM_GPU_BLW_THRSHLD / GPU_COUNT ))
@@ -179,8 +178,8 @@ while true; do
       if [[ $RESTART -gt 4 ]]
       then
         ALERT="CRITICAL: $(date) - Utilization is too low: reviving did not work so restarting system in 10 seconds"
-				logger -s "${ALERT}"
-				echo ""
+	logger -s "${ALERT}"
+	echo ""
         if [[ $TELEGRAM_ALERTS == "YES" ]]; then
           bash ~/telegram.sh "${ALERT}"
         fi
@@ -191,8 +190,8 @@ while true; do
       # Kill the miner to be sure it's gone
       if [[ $(ps ax | grep -i screen | grep miner) ]]
       then
-				target_miner=$(ps ax | grep -i screen | grep miner | awk '{print $1}')
-				kill $target_miner
+	target_miner=$(ps ax | grep -i screen | grep miner | awk '{print $1}')
+	kill $target_miner
      fi
 
       echo ""
@@ -205,8 +204,8 @@ while true; do
 
       if [[ $(ps ax | grep -i screen | grep autotempfan) ]]
       then
-				target_temp=$(ps ax | grep -i screen | grep autotempfan | awk '{print $1}')
-				kill $target_temp
+	target_temp=$(ps ax | grep -i screen | grep autotempfan | awk '{print $1}')
+	kill $target_temp
       fi
 
       # Restart everything
@@ -219,8 +218,8 @@ while true; do
       # Give Miner time to restart to prevent reboot
       sleep $SLEEP_TIME
       ALERT="$(date) - Back 'on watch' after miner restart"
-			logger -s "${ALERT}"
-			if [[ $TELEGRAM_ALERTS == "YES" ]]; then
+	logger -s "${ALERT}"
+	if [[ $TELEGRAM_ALERTS == "YES" ]]; then
         bash ~/telegram.sh "${ALERT}"
       fi
     	else
