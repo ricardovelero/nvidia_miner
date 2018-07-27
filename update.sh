@@ -45,9 +45,9 @@ echo; echo "Update 'telegram.sh'"
 curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/telegram.sh" -o telegram.sh
 chmod 755 telegram.sh
 
-echo; echo "Update 'net_wdog.sh'"
-curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/net_wdog.sh" -o net_wdog.sh
-chmod 755 net_wdog.sh
+# echo; echo "Update 'net_wdog.sh'"
+# curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/net_wdog.sh" -o net_wdog.sh
+# chmod 755 net_wdog.sh
 
 #echo; echo "Backing up Settings to settings.conf.bak and Update 'settings.conf'"
 #cp settings.conf settings.conf.bak
