@@ -359,10 +359,10 @@ function my_address() {
 	cmd=(dialog --backtitle "$MY_ADDRESS_TITLE" --inputbox "$MY_ADDRESS_MSG_TEXT" 14 60 "$MY_ADDRESS")
 	choices=$("${cmd[@]}" 2>&1 >/dev/tty)
 	if [ "$choices" != "" ]; then
-		MY_ADDRESS=$choices
-		sed -i.bak '/MY_ADDRESS/d' ~/settings.conf
+		ETH_ADDRESS=$choices
+		sed -i.bak '/ETH_ADDRESS/d' ~/settings.conf
 		echo >> ~/settings.conf
-		echo "MY_ADDRESS='$MY_ADDRESS'" >> ~/settings.conf
+		echo "ETH_ADDRESS='$ETH_ADDRESS'" >> ~/settings.conf
 	fi
 }
 
