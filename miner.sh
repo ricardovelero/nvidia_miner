@@ -128,27 +128,56 @@ echo "LAUNCHING:  MINER"
 # ethminer
 # https://github.com/ethereum-mining/ethminer
 #
-# Please choose version
-#
-# version 0.14 and bellow
 
-if [[ $USE_LEGACY_ETHMINER == "YES" ]]; then
+if [[ $COIN == "ETH" ]]; then
 
-	screen -dmS miner ~/ethminer/legacy/ethminer --farm-recheck 10000 -SP 1 -RH -S "$ETH_POOL" -FS "$ETH_FS" -O "$MY_ADDRESS.$MY_RIG" -U
+	# Please choose version
+	# version 0.14 and bellow
 
-fi
+	if [[ $USE_LEGACY_ETHMINER == "YES" ]]; then
 
-# Version 0.15 and above
+		screen -dmS miner ~/ethminer/legacy/ethminer --farm-recheck 10000 -SP 1 -RH -S "$ETH_POOL" -FS "$ETH_FS" -O "$ETH_ADDRESS.$MY_RIG" -U
 
-if [[ $USE_POOL_SSL == "YES" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
+	fi
 
-	screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$MY_ADDRESS.$MY_RIG@$ETH_POOL_SSL --api-bind -3333
+	# Version 0.15 and above
 
-elif [[ $USE_POOL_SSL == "NO" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
+	if [[ $USE_POOL_SSL == "YES" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
 
-	screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$MY_ADDRESS.$MY_RIG@$ETH_POOL --api-bind -3333
+		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETH_ADDRESS.$MY_RIG@$ETH_POOL_SSL --api-bind -3333
 
-fi
+	elif [[ $USE_POOL_SSL == "NO" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
+
+		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETH_ADDRESS.$MY_RIG@$ETH_POOL --api-bind -3333
+
+	fi
+
+fi #ETH coin IF
+
+if [[ $COIN == "ETC" ]]; then
+
+	# Please choose version
+	# version 0.14 and bellow
+
+	if [[ $USE_LEGACY_ETHMINER == "YES" ]]; then
+
+		screen -dmS miner ~/ethminer/legacy/ethminer --farm-recheck 10000 -SP 1 -RH -S "$ETC_POOL" -FS "$ETC_FS" -O "$ETC_ADDRESS.$MY_RIG" -U
+
+	fi
+
+	# Version 0.15 and above
+
+	if [[ $USE_POOL_SSL == "YES" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
+
+		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETC_ADDRESS.$MY_RIG@$ETC_POOL_SSL --api-bind -3333
+
+	elif [[ $USE_POOL_SSL == "NO" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
+
+		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETC_ADDRESS.$MY_RIG@$ETC_POOL --api-bind -3333
+
+	fi
+
+fi #ETC coin IF
 
 # Claymore's Dual Ethereum+Decred AMD+NVIDIA GPU Miner
 #screen -dmS miner ~/claymore-dual-miner/ethdcrminer64 -epool "eu1.ethermine.org:4444" -ewal "$MY_ADDRESS.$MY_RIG" -epsw x -mode 1 -ftime 10 -mport 0
