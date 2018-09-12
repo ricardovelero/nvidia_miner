@@ -109,6 +109,7 @@ then
   wget https://github.com/ricardovelero/nvidia_miner/blob/master/funakoshi/latest/funakoshiMiner?raw=true -O ~/funakoshi/latest/funakoshiMiner
   wget https://github.com/ricardovelero/nvidia_miner/blob/master/funakoshi/latest/Start.sh?raw=true -O ~/funakoshi/latest/Start.sh
   chmod 755 /home/prospector/funakoshi/latest/funakoshiMiner
+  chmod 755 /home/prospector/funakoshi/latest/Start.sh
 else
   echo "Latest funakoshi already downloaded"
 fi
