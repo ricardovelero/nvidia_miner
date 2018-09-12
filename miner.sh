@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# version 1.0
 
 #
 # Start mining process
@@ -129,6 +130,10 @@ echo "LAUNCHING:  MINER"
 # https://github.com/ethereum-mining/ethminer
 #
 
+#
+# ETH
+#
+
 if [[ $COIN == "ETH" ]]; then
 
 	# Please choose version
@@ -154,6 +159,10 @@ if [[ $COIN == "ETH" ]]; then
 
 fi #ETH coin IF
 
+#
+# ETC
+#
+
 if [[ $COIN == "ETC" ]]; then
 
 	# Please choose version
@@ -178,6 +187,23 @@ if [[ $COIN == "ETC" ]]; then
 	fi
 
 fi #ETC coin IF
+
+#
+# BTG
+#
+if [[ $COIN == "BTG" ]]; then
+
+	if [[ $USE_POOL_SSL == "YES" ]]; then
+
+		screen -dmS miner ~/funakoshi/latest/funakoshiMiner -l $BTG_POOL_SSL -u $BTG_ADDRESS.$MY_RIG -p coco
+
+	elif [[ $USE_POOL_SSL == "NO" ]]; then
+
+		screen -dmS miner ~/funakoshi/latest/funakoshiMiner -l $BTG_POOL -u $BTG_ADDRESS.$MY_RIG -p coco
+
+	fi
+
+fi #BTG coin IF
 
 # Claymore's Dual Ethereum+Decred AMD+NVIDIA GPU Miner
 #screen -dmS miner ~/claymore-dual-miner/ethdcrminer64 -epool "eu1.ethermine.org:4444" -ewal "$MY_ADDRESS.$MY_RIG" -epsw x -mode 1 -ftime 10 -mport 0
