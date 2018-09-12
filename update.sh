@@ -85,6 +85,32 @@ else
   echo "Latest ethminer already downloaded"
 fi
 
+echo; echo "Checking Funakoshi directory"
+if [[ ! -d /home/prospector/funakoshi/legacy/ ]]; then
+  echo "Making legacy Funakoshi directory"
+  mkdir -p /home/prospector/funakoshi/legacy
+fi
+if [[ ! -d /home/prospector/funakoshi/latest/ ]]; then
+  echo "Making Ethminer directory"
+  mkdir -p /home/prospector/funakoshi/latest
+else
+  echo "Funakoshi directory structure already fixed"
+fi
+
+echo; echo "Checking for Funakoshi Miner 4.6"
+
+if [[ ! $(/home/prospector/funakoshi/latest/funakoshiMiner --version | grep 4.6) ]]
+then
+  echo "Moving old funakoshiMiner to legacy directory"
+  cp /home/prospector/funakoshi/latest/funakoshiMiner /home/prospector/funakoshi/legacy/funakoshiMiner
+  echo "Downloading and making changes for Funakoshi 4.6"
+  mkdir -p /home/prospector/funakoshi/latest
+  wget https://github.com/ricardovelero/nvidia_miner/blob/master/funakoshi/latest/funakoshiMiner?raw=true -O ~/funakoshi/latest/funakoshiMiner
+  chmod 755 /home/prospector/funakoshi/latest/funakoshiMiner
+else
+  echo "Latest funakoshi already downloaded"
+fi
+
 sleep 2
 
 echo; echo "Crontab setup"
