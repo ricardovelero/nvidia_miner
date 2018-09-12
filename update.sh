@@ -103,9 +103,11 @@ if [[ ! $(/home/prospector/funakoshi/latest/funakoshiMiner --version | grep 4.6)
 then
   echo "Moving old funakoshiMiner to legacy directory"
   cp /home/prospector/funakoshi/latest/funakoshiMiner /home/prospector/funakoshi/legacy/funakoshiMiner
+  cp /home/prospector/funakoshi/latest/Start.sh /home/prospector/funakoshi/legacy/Start.sh
   echo "Downloading and making changes for Funakoshi 4.6"
   mkdir -p /home/prospector/funakoshi/latest
   wget https://github.com/ricardovelero/nvidia_miner/blob/master/funakoshi/latest/funakoshiMiner?raw=true -O ~/funakoshi/latest/funakoshiMiner
+  wget https://github.com/ricardovelero/nvidia_miner/blob/master/funakoshi/latest/Start.sh?raw=true -O ~/funakoshi/latest/Start.sh
   chmod 755 /home/prospector/funakoshi/latest/funakoshiMiner
 else
   echo "Latest funakoshi already downloaded"
