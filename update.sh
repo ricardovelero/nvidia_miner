@@ -99,7 +99,7 @@ fi
 
 echo; echo "Checking for EWBF version 0.5"
 
-if [[ ! $(/home/prospector/ewbf/latest/miner --version | grep 0.5) ]]
+if [[ ! $(/home/prospector/ewbf/latest/miner --help | grep 0.5) ]]
 then
   echo "Moving old ewbf to legacy directory"
   cp /home/prospector/ewbf/latest/miner /home/prospector/ewbf/legacy/miner
