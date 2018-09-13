@@ -193,13 +193,19 @@ fi #ETC coin IF
 #
 if [[ $COIN == "BTG" ]]; then
 
-	if [[ $USE_POOL_SSL == "YES" ]]; then
+	if [[ $USE_POOL_SSL == "YES" ]] && [[ $USE_EWBF_OR_FUNAKOSHI_MINER == "funakoshi" ]]; then
 
-		screen -dmS miner ~/funakoshi/latest/funakoshiMiner -l ssl://$BTG_POOL_SSL -u $BTG_ADDRESS.$MY_RIG -p coco
+		screen -dmS miner ~/funakoshi/latest/funakoshiMiner -l ssl://$BTG_POOL:$BTG_POOL_PORT -u $BTG_ADDRESS.$MY_RIG -p coco
 
-	elif [[ $USE_POOL_SSL == "NO" ]]; then
+	elif [[ $USE_POOL_SSL == "NO" ]] && [[ $USE_EWBF_OR_FUNAKOSHI_MINER == "funakoshi" ]]; then
 
-		screen -dmS miner ~/funakoshi/latest/funakoshiMiner -l $BTG_POOL -u $BTG_ADDRESS.$MY_RIG -p coco
+		screen -dmS miner ~/funakoshi/latest/funakoshiMiner -l $BTG_POOL:$BTG_POOL_PORT -u $BTG_ADDRESS.$MY_RIG -p coco
+
+	fi
+
+	if [[ $USE_EWBF_OR_FUNAKOSHI_MINER == "ewbf" ]]; then
+
+		screen -dmS miner ~/ewbf/latest/miner --algo 144_5 --server $BTG_POOL --port $BTG_POOL_PORT --user $BTG_ADDRESS.$MY_RIG --password coco --pers BgoldPoW
 
 	fi
 
