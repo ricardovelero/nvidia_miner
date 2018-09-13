@@ -195,7 +195,7 @@ if [[ $COIN == "BTG" ]]; then
 
 	if [[ $USE_POOL_SSL == "YES" ]]; then
 
-		screen -dmS miner ~/funakoshi/latest/funakoshiMiner -l $BTG_POOL_SSL -u $BTG_ADDRESS.$MY_RIG -p coco
+		screen -dmS miner ~/funakoshi/latest/funakoshiMiner -l ssl://$BTG_POOL_SSL -u $BTG_ADDRESS.$MY_RIG -p coco
 
 	elif [[ $USE_POOL_SSL == "NO" ]]; then
 
