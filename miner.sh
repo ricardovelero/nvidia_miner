@@ -205,7 +205,7 @@ if [[ $COIN == "BTG" ]]; then
 
 	if [[ $USE_EWBF_OR_FUNAKOSHI_MINER == "ewbf" ]]; then
 
-		screen -dmS miner ~/ewbf/latest/miner --algo 144_5 --server $BTG_POOL --port $BTG_POOL_PORT --user $BTG_ADDRESS.$MY_RIG --password coco --pers BgoldPoW
+		screen -dmS miner ~/ewbf/latest/miner --algo 144_5 --server $BTG_POOL --port $BTG_POOL_PORT --user $BTG_ADDRESS.$MY_RIG --password coco --pers BgoldPoW --pec --fee 0
 
 	fi
 
