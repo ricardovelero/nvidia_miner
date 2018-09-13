@@ -106,6 +106,7 @@ then
   echo "Downloading and making changes for EWBF version 0.5"
   mkdir -p /home/prospector/ewbf/latest
   wget https://github.com/ricardovelero/nvidia_miner/blob/master/ewbf/latest/miner?raw=true -O ~/ewbf/latest/miner
+  wget https://github.com/ricardovelero/nvidia_miner/blob/master/ewbf/latest/miner.cfg?raw=true -O ~/ewbf/latest/miner.cfg
   chmod 755 /home/prospector/ewbf/latest/miner
 else
   echo "Latest ewbf already downloaded"
