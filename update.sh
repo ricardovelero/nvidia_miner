@@ -85,6 +85,32 @@ else
   echo "Latest ethminer already downloaded"
 fi
 
+echo; echo "Checking EWBF directory"
+if [[ ! -d /home/prospector/ewbf/legacy/ ]]; then
+  echo "Making legacy EWBF directory"
+  mkdir -p /home/prospector/ewbf/legacy
+fi
+if [[ ! -d /home/prospector/ewbf/latest/ ]]; then
+  echo "Making EWBF directory"
+  mkdir -p /home/prospector/ewbf/latest
+else
+  echo "ewbf directory structure already fixed"
+fi
+
+echo; echo "Checking for EWBF version 0.5"
+
+if [[ ! $(/home/prospector/ewbf/latest/miner --version | grep 0.5) ]]
+then
+  echo "Moving old ewbf to legacy directory"
+  cp /home/prospector/ewbf/latest/miner /home/prospector/ewbf/legacy/miner
+  echo "Downloading and making changes for EWBF version 0.5"
+  mkdir -p /home/prospector/ewbf/latest
+  wget https://github.com/ricardovelero/nvidia_miner/blob/master/ewbf/latest/miner?raw=true -O ~/ewbf/latest/miner
+  chmod 755 /home/prospector/ewbf/latest/ewbfMiner
+else
+  echo "Latest ewbf already downloaded"
+fi
+
 echo; echo "Checking Funakoshi directory"
 if [[ ! -d /home/prospector/funakoshi/legacy/ ]]; then
   echo "Making legacy Funakoshi directory"
