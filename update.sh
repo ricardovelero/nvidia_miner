@@ -106,7 +106,7 @@ then
   echo "Downloading and making changes for EWBF version 0.5"
   mkdir -p /home/prospector/ewbf/latest
   wget https://github.com/ricardovelero/nvidia_miner/blob/master/ewbf/latest/miner?raw=true -O ~/ewbf/latest/miner
-  chmod 755 /home/prospector/ewbf/latest/ewbfMiner
+  chmod 755 /home/prospector/ewbf/latest/miner
 else
   echo "Latest ewbf already downloaded"
 fi
@@ -117,7 +117,7 @@ if [[ ! -d /home/prospector/funakoshi/legacy/ ]]; then
   mkdir -p /home/prospector/funakoshi/legacy
 fi
 if [[ ! -d /home/prospector/funakoshi/latest/ ]]; then
-  echo "Making Ethminer directory"
+  echo "Making Funakoshi directory"
   mkdir -p /home/prospector/funakoshi/latest
 else
   echo "Funakoshi directory structure already fixed"
