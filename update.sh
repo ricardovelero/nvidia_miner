@@ -45,6 +45,10 @@ echo; echo "Update 'telegram.sh'"
 curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/telegram.sh" -o telegram.sh
 chmod 755 telegram.sh
 
+echo; echo "Update 'switch_coin.sh'"
+curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/switch_coin.sh" -o switch_coin.sh
+chmod 755 switch_coin.sh
+
 # echo; echo "Update 'net_wdog.sh'"
 # curl -f "https://raw.githubusercontent.com/ricardovelero/nvidia_miner/master/net_wdog.sh" -o net_wdog.sh
 # chmod 755 net_wdog.sh
