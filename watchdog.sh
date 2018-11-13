@@ -3,11 +3,11 @@
 # Watchdog for Cyclenerd/ethereum_nvidia_miner based on nvOC v0019-2.0 - Community Release by papampi, Stubo and leenoox
 # https://github.com/papampi/nvOC_by_fullzero_Community_Release/blob/19.2/5watchdog
 
-echo "Watchdog ver 1.2"
+echo "Watchdog ver 1.3"
 
 # Set higher process and disk I/O priorities because we are essential service
-#sudo renice -n -15 -p $$ && sudo ionice -c2 -n0 -p$$ >/dev/null 2>&1
-#sleep 1
+sudo renice -n -15 -p $$ && sudo ionice -c2 -n0 -p$$ >/dev/null 2>&1
+sleep 1
 
 # Load global settings settings.conf
 if ! source ~/settings.conf; then
@@ -35,6 +35,8 @@ LOST_GPU_ALERT="$(date) - Lost GPU so restarting system. Found GPU's:
 $(nvidia-smi --query-gpu=gpu_bus_id --format=csv)
 $(date) - reboot in 10 seconds"
 LF=$'\n'
+EMAILID="prospector@localhost"
+
 
 # Dynamic sleep time, dstm zm miner takes a very long time to load GPUs
 SLEEP_TIME=$((($GPU_COUNT * 10 ) + 10 ))
@@ -74,11 +76,11 @@ while true; do
     if [[ $(nvidia-smi -i $GPU --query-gpu=name --format=csv,noheader,nounits | grep "1050") ]]; then
       if ! [[ ( $UTIL =~ $numtest ) && ( $CURRENT_TEMP =~ $numtest ) && ( $CURRENT_FAN =~ $numtest ) && ( $PWRLIMIT =~ $numtest ) ]]; then
         # Not numeric so: Help we've lost a GPU, so reboot
-	LOST_GPU_INFO="Gpu: $GPU, Util: $UTIL, Temp: $CURRENT_TEMP, Fan: $CURRENT_FAN, Power: $POWERDRAW, Power limit: $PWRLIMIT."
-	echo "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
-        if [[ $TELEGRAM_ALERTS == "YES" ]]; then
-          bash ~/telegram.sh "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
-        fi
+	     LOST_GPU_INFO="Gpu: $GPU, Util: $UTIL, Temp: $CURRENT_TEMP, Fan: $CURRENT_FAN, Power: $POWERDRAW, Power limit: $PWRLIMIT."
+	     echo "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}" | mail -s "Lost GPU $GPU" $EMAILID
+      if [[ $TELEGRAM_ALERTS == "YES" ]]; then
+        bash ~/telegram.sh "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
+      fi
         sleep 10
         sudo reboot
       elif [ $UTIL -lt $THRESHOLD ] # If utilization is lower than threshold, decrement counter
@@ -91,7 +93,7 @@ while true; do
       if ! [[ ( $UTIL =~ $numtest ) && ( $CURRENT_TEMP =~ $numtest ) && ( $CURRENT_FAN =~ $numtest ) && ( $POWERDRAW =~ $numtest ) && ( $PWRLIMIT =~ $numtest ) ]]; then
         # Not numeric so: Help we've lost a GPU, so reboot
 	LOST_GPU_INFO="Gpu: $GPU, Util: $UTIL, Temp: $CURRENT_TEMP, Fan: $CURRENT_FAN, Power: $POWERDRAW, Power limit: $PWRLIMIT."
-	logger -s "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
+	logger -s "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}" | mail -s "Lost GPU $GPU" $EMAILID
         if [[ $TELEGRAM_ALERTS == "YES" ]]; then
           bash ~/telegram.sh "${LOST_GPU_ALERT}${LF}${LOST_GPU_INFO}"
         fi
