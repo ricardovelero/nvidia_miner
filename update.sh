@@ -75,9 +75,9 @@ else
   echo "Ethminer directory structure already fixed"
 fi
 
-echo; echo "Checking for Ethminer 0.16"
+echo; echo "Checking for Ethminer 0.16.1"
 
-if [[ ! $(/home/prospector/ethminer/latest/ethminer --version | grep 0.16) ]]
+if [[ ! $(/home/prospector/ethminer/latest/ethminer --version | grep 0.16.1) ]]
 then
   echo "Moving old Ethminer to legacy directory"
   cp /home/prospector/ethminer/latest/ethminer /home/prospector/ethminer/legacy/ethminer
