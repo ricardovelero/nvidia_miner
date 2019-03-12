@@ -149,11 +149,11 @@ if [[ $COIN == "ETH" ]]; then
 
 	if [[ $USE_POOL_SSL == "YES" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
 
-		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETH_ADDRESS.$MY_RIG@$ETH_POOL_SSL --api-bind -3333
+		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETH_ADDRESS.$MY_RIG@$ETH_POOL_SSL --api-port -3333
 
 	elif [[ $USE_POOL_SSL == "NO" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
 
-		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETH_ADDRESS.$MY_RIG@$ETH_POOL --api-bind -3333
+		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETH_ADDRESS.$MY_RIG@$ETH_POOL --api-port -3333
 
 	fi
 
@@ -178,11 +178,11 @@ if [[ $COIN == "ETC" ]]; then
 
 	if [[ $USE_POOL_SSL == "YES" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
 
-		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETC_ADDRESS.$MY_RIG@$ETC_POOL_SSL --api-bind -3333
+		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETC_ADDRESS.$MY_RIG@$ETC_POOL_SSL --api-port -3333
 
 	elif [[ $USE_POOL_SSL == "NO" ]] && [[ $USE_LEGACY_ETHMINER == "NO" ]]; then
 
-		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETC_ADDRESS.$MY_RIG@$ETC_POOL --api-bind -3333
+		screen -dmS miner ~/ethminer/latest/ethminer -U -R -P stratum1+ssl://$ETC_ADDRESS.$MY_RIG@$ETC_POOL --api-port -3333
 
 	fi
 
