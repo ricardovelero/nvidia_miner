@@ -17,7 +17,7 @@ fi
 
 export DISPLAY=:0
 
-NVD=nvidia-settings
+NVD="sudo DISPLAY=:0 XAUTHORITY=/var/run/lightdm/root/:0 nvidia-settings"
 SMI="sudo nvidia-smi"
 
 # Determine the number of available GPU's
